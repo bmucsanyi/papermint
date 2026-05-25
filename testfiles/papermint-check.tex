@@ -1,0 +1,19 @@
+\documentclass{article}
+\usepackage{papermint}
+\makeatletter
+\@ifpackageloaded{macromint}
+  {\PackageError{papermint-test}{macromint loaded by papermint}{}}
+  {}
+\makeatother
+
+\begin{document}
+
+\[
+  \theta \in \mathbb{R}^d
+  \qquad
+  \mathcal{L}(P \Vert Q)
+  \qquad
+  \left\{x \in \mathbb{R} : \lVert x \rVert \le 1\right\}
+\]
+
+\end{document}

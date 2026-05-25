@@ -1,0 +1,11 @@
+# Files
+*.aux
+*.log
+*.nav
+*.out
+*.pdf
+*.snm
+*.toc
+
+# Folders
+build/

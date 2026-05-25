@@ -1,0 +1,38 @@
+\NeedsTeXFormat{LaTeX2e}[2020-10-01]
+\ProvidesPackage{papermint}[2026-05-25 v0.1.0 Paper math stack]
+
+\RequirePackage{iftex}
+\RequirePackage{mathtools}
+
+\ifLuaTeX
+  \@ifpackageloaded{unicode-math}
+    {%
+      \PackageError{papermint}
+        {Papermint must load unicode-math itself}
+        {Load papermint before packages that load unicode-math, or omit papermint when the document owns math fonts.}%
+    }
+    {%
+      \RequirePackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}%
+      \setmathfont{STIX Two Math}%
+    }
+\else\ifXeTeX
+  \@ifpackageloaded{unicode-math}
+    {%
+      \PackageError{papermint}
+        {Papermint must load unicode-math itself}
+        {Load papermint before packages that load unicode-math, or omit papermint when the document owns math fonts.}%
+    }
+    {%
+      \RequirePackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}%
+      \setmathfont{STIX Two Math}%
+    }
+\else
+  \@ifpackageloaded{stix2}
+    {%
+      \PackageError{papermint}
+        {Papermint must load stix2 itself}
+        {Load papermint before packages that load stix2, or omit papermint when the document owns math fonts.}%
+    }
+    { \RequirePackage[notext]{stix2} }
+  \RequirePackage{bm}
+\fi\fi
