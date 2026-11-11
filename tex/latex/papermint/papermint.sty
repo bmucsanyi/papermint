@@ -4,7 +4,7 @@
 \RequirePackage{iftex}
 \RequirePackage{mathtools}
 
-\ifLuaTeX
+\iftutex
   \@ifpackageloaded{unicode-math}
     {%
       \PackageError{papermint}
@@ -13,18 +13,9 @@
     }
     {%
       \RequirePackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}%
-      \setmathfont{STIX Two Math}%
-    }
-\else\ifXeTeX
-  \@ifpackageloaded{unicode-math}
-    {%
-      \PackageError{papermint}
-        {Papermint must load unicode-math itself}
-        {Load papermint before packages that load unicode-math, or omit papermint when the document owns math fonts.}%
-    }
-    {%
-      \RequirePackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}%
-      \setmathfont{STIX Two Math}%
+      % By file name: given the family name, fontspec looks for a bold face
+      % and logs that it cannot resolve it.
+      \setmathfont{STIXTwoMath-Regular.otf}%
     }
 \else
   \@ifpackageloaded{stix2}
@@ -34,5 +25,17 @@
         {Load papermint before packages that load stix2, or omit papermint when the document owns math fonts.}%
     }
     { \RequirePackage[notext]{stix2} }
+  % stix2.sty assigns these five shapes to the bold math version, but the
+  % fonts have no bold. Their font definition files declare them as
+  % substitutes of the medium shapes that warn once per size. These
+  % declarations replace them with silent substitutes.
+  \begingroup\nfss@catcodes
+  \input{ls1stix2bb.fd}\input{ls2stix2cal.fd}\input{ls2stix2ex.fd}\input{ls2stix2tt.fd}
+  \endgroup
+  \DeclareFontShape{LS1}{stix2bb}{b}{n}{<->ssub*stix2bb/m/n}{}
+  \DeclareFontShape{LS1}{stix2bb}{b}{it}{<->ssub*stix2bb/m/it}{}
+  \DeclareFontShape{LS2}{stix2cal}{b}{n}{<->ssub*stix2cal/m/n}{}
+  \DeclareFontShape{LS2}{stix2ex}{b}{n}{<->ssub*stix2ex/m/n}{}
+  \DeclareFontShape{LS2}{stix2tt}{b}{n}{<->ssub*stix2tt/m/n}{}
   \RequirePackage{bm}
-\fi\fi
+\fi

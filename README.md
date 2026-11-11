@@ -1,32 +1,25 @@
 # papermint
 
-`papermint` is my standalone paper math-font package. It selects math fonts only.
+`papermint` selects the math fonts of a paper.
 
 ## Requirements
 
-`papermint` supports LuaLaTeX, XeLaTeX, and pdfLaTeX.
-
-Under LuaLaTeX and XeLaTeX, it loads `unicode-math` with
-`STIX Two Math`. Under pdfLaTeX, it loads `stix2` with `notext`
-and `bm`. All engines load `mathtools`.
+LuaLaTeX, XeLaTeX, or pdfLaTeX, `mathtools`, and the STIX Two fonts:
+`unicode-math` with `STIXTwoMath-Regular.otf` under LuaLaTeX and XeLaTeX,
+`stix2` with `bm` under pdfLaTeX.
 
 ## Installation
 
-Install the package into your user TeX tree from the repository root:
+From the repository root:
 
 ```sh
 l3build install
 ```
 
-Check that TeX can find the installed package:
-
-```sh
-kpsewhich papermint.sty
-```
+This installs `papermint.sty` into the user TeX tree, where `kpsewhich
+papermint.sty` finds it. For arXiv, vendor the file into the paper source.
 
 ## Usage
-
-Load the package directly:
 
 ```tex
 \usepackage{papermint}
@@ -41,20 +34,24 @@ In a paper that uses the mint stack:
 \usepackage{figmint}
 ```
 
-For arXiv, vendor the exact `papermint.sty` file into the paper source tree.
+Load `papermint` before any package that loads `unicode-math` or `stix2`. It
+stops with an error otherwise.
 
-## Scope
+## Public interface
 
-`papermint` owns paper math-font selection. It does not depend on `macromint`,
-`figmint`, or `slidemint`, and they do not depend on it either.
+`papermint` defines no commands. It selects the math fonts and leaves the text
+fonts, the layout, and everything else to the class.
 
 ## Tests
 
-Run from the repository root:
+From the repository root:
 
 ```sh
 l3build check
 ```
+
+The tests need checkouts of `figmint`, which provides the shared test harness,
+and `macromint` next to this repository.
 
 ## License
 
