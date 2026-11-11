@@ -66,6 +66,7 @@ local function check(harness)
     TEXINPUTS = harness.texinputs({
       "./tex/latex/papermint",
       harness.require_sibling("macromint"),
+      harness.require_sibling("figmint"),
     }),
   }
 
@@ -80,6 +81,17 @@ local function check(harness)
   for _, test in ipairs(error_tests) do
     for _, engine in ipairs(test.engines) do
       if harness.compile_error_test(environment, test.name, engine, test.needle) ~= 0 then
+        return 1
+      end
+    end
+  end
+
+  -- papermint and macromint declare the preamble lines of their figures.
+  for _, engine in ipairs(engines) do
+    local file = harness.output("paper-stack-check", engine, "figmint")
+    for _, needle in ipairs({ "preamble=\\usepackage {papermint}", "preamble=\\usepackage {macromint}" }) do
+      if not harness.file_contains(file, needle) then
+        print(file .. ": missing " .. needle)
         return 1
       end
     end

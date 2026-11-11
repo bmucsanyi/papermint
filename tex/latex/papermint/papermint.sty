@@ -39,3 +39,6 @@
   \DeclareFontShape{LS2}{stix2tt}{b}{n}{<->ssub*stix2tt/m/n}{}
   \RequirePackage{bm}
 \fi
+
+% A figure drawn by figmint is set in these math fonts too.
+\AddToHook{package/figmint/after}{\figmintpreamble{\usepackage{papermint}}}
